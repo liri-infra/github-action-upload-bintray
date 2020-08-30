@@ -37,6 +37,26 @@ if [ "${INPUT_DELETE_FILE}" = "true" ]; then
     echo "    -> Done."
 fi
 
+if [ "${INPUT_DELETE_PACKAGE}" = "true" ]; then
+    echo "Delete package"
+    curl --silent --location \
+        --user "${INPUT_API_USER}:${INPUT_API_KEY}" \
+        --request DELETE \
+        "${INPUT_API_URL}/packages/${INPUT_REPOSITORY_USER}/${INPUT_REPOSITORY}/${INPUT_PACKAGE}" || /bin/true
+    echo "    -> Done."
+fi
+
+if [ "${INPUT_CREATE_PACKAGE}" = "true" ]; then
+    echo "Create package"
+    curl --silent --location \
+        --user "${INPUT_API_USER}:${INPUT_API_KEY}" \
+        --request POST \
+        -H "Content-Type: application/json" \
+        --data "{\"name\": \"${INPUT_PACKAGE}\", \"licenses\": [${INPUT_LICENSES}], \"vcs_url\": \"https://github.com/${GITHUB_REPOSITORY}\"}" \
+        "${INPUT_API_URL}/packages/${INPUT_REPOSITORY_USER}/${INPUT_REPOSITORY}"
+    echo "    -> Done."
+fi
+
 if [ "${INPUT_RECREATE_VERSION}" = "true" ]; then
     echo "Deleting version"
     curl --silent --location \

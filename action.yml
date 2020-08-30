@@ -46,6 +46,15 @@ inputs:
   recreate_version:
     description: 'Delete and then create version again'
     default: 'true'
+  delete_package:
+    description: 'Delete package, set this to "true" and also `create_package` in order to recreate the package before uploading the file'
+    default: 'true'
+  create_package:
+    description: 'Create package automatically'
+    default: 'true'
+  licenses:
+    description: 'Licenses to be used when creating the package (must be suitable for JSON)'
+    default: '"GPL-3.0"'
   calculate_metadata:
     description: 'Whether to let Bintray re-calculate metadata of the repository'
     default: 'true'
