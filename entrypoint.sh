@@ -69,7 +69,8 @@ if [ "${INPUT_RECREATE_VERSION}" = "true" ]; then
     curl --silent --location \
         --user "${INPUT_API_USER}:${INPUT_API_KEY}" \
         --request POST \
-        --data "{\"name\": \"${INPUT_VERSION}\", \"desc\": \"\"}" \
+        -H "Content-Type: application/json" \
+        --data "{\"name\": \"${INPUT_VERSION}\"}" \
         "${INPUT_API_URL}/packages/${INPUT_REPOSITORY_USER}/${INPUT_REPOSITORY}/${INPUT_PACKAGE}/versions" || /bin/true
     echo "    -> Done."
 fi
