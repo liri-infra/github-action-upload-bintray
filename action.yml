@@ -43,8 +43,11 @@ inputs:
   delete_file:
     description: 'Delete previously uploaded file'
     default: 'true'
-  recreate_version:
-    description: 'Delete and then create version again'
+  delete_version:
+    description: 'Delete version'
+    default: 'true'
+  create_version:
+    description: 'Create version again'
     default: 'true'
   delete_package:
     description: 'Delete package, set this to "true" and also `create_package` in order to recreate the package before uploading the file'

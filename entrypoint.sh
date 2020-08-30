@@ -57,14 +57,16 @@ if [ "${INPUT_CREATE_PACKAGE}" = "true" ]; then
     echo "    -> Done."
 fi
 
-if [ "${INPUT_RECREATE_VERSION}" = "true" ]; then
+if [ "${INPUT_DELETE_VERSION}" = "true" ]; then
     echo "Deleting version"
     curl --silent --location \
         --user "${INPUT_API_USER}:${INPUT_API_KEY}" \
         --request DELETE \
         "${INPUT_API_URL}/packages/${INPUT_REPOSITORY_USER}/${INPUT_REPOSITORY}/${INPUT_PACKAGE}/versions/${INPUT_VERSION}" || /bin/true
     echo "    -> Done."
+fi
 
+if [ "${INPUT_CREATE_VERSION}" = "true" ]; then
     echo "Create version"
     curl --silent --location \
         --user "${INPUT_API_USER}:${INPUT_API_KEY}" \
