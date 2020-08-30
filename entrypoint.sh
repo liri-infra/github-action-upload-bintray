@@ -28,6 +28,32 @@ then
     HEADER_DEBIAN_ARCHITECTURE="X-Bintray-Debian-Architecture: ${INPUT_DEB_ARCHITECTURE}"
 fi
 
+if [ "${INPUT_DELETE_FILE}" = "true" ]; then
+    echo "Deleting file"
+    curl --silent --location \
+        --user "${INPUT_API_USER}:${INPUT_API_KEY}" \
+        --request DELETE \
+        "${INPUT_API_URL}/content/${INPUT_REPOSITORY_USER}/${INPUT_REPOSITORY}/${FILENAME}" || /bin/true
+    echo "    -> Done."
+fi
+
+if [ "${INPUT_RECREATE_VERSION}" = "true" ]; then
+    echo "Deleting version"
+    curl --silent --location \
+        --user "${INPUT_API_USER}:${INPUT_API_KEY}" \
+        --request DELETE \
+        "${INPUT_API_URL}/packages/${INPUT_REPOSITORY_USER}/${INPUT_REPOSITORY}/${INPUT_PACKAGE}/versions/${INPUT_VERSION}" || /bin/true
+    echo "    -> Done."
+
+    echo "Create version"
+    curl --silent --location \
+        --user "${INPUT_API_USER}:${INPUT_API_KEY}" \
+        --request POST \
+        --data "{\"name\": \"${INPUT_VERSION}\", \"desc\": \"\"}" \
+        "${INPUT_API_URL}/packages/${INPUT_REPOSITORY_USER}/${INPUT_REPOSITORY}/${INPUT_PACKAGE}/versions" || /bin/true
+    echo "    -> Done."
+fi
+
 echo "Uploading file"
 curl --silent --show-error --fail --location --request PUT --upload-file "${1}" --user "${INPUT_API_USER}:${INPUT_API_KEY}" -H "${HEADER_GPG_PASSPHRASE}" -H "${HEADER_DEBIAN_DISTRIBUTION}" -H "${HEADER_DEBIAN_COMPONENT}" -H "${HEADER_DEBIAN_ARCHITECTURE}" "${INPUT_API_URL}/content/${INPUT_REPOSITORY_USER}/${INPUT_REPOSITORY}/${INPUT_PACKAGE}/${INPUT_VERSION}/${INPUT_UPLOAD_PATH}/${FILENAME};publish=${INPUT_PUBLISH}"
 echo "    -> Done."

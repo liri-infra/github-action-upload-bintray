@@ -40,6 +40,12 @@ inputs:
     description: 'Whether to publish the package right away, use "1" to enable'
     required: false
     default: '0'
+  delete_file:
+    description: 'Delete previously uploaded file'
+    default: 'true'
+  recreate_version:
+    description: 'Delete and then create version again'
+    default: 'true'
   calculate_metadata:
     description: 'Whether to let Bintray re-calculate metadata of the repository'
     default: 'true'
